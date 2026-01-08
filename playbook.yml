@@ -40,21 +40,31 @@
     - clawdbot
 
   post_tasks:
-    - name: Create post-installation setup script
-      ansible.builtin.copy:
-        src: roles/clawdbot/files/clawdbot-setup.sh
-        dest: /tmp/clawdbot-setup.sh
-        mode: '0755'
-        owner: root
-        group: root
-
-    - name: Display completion message
+    - name: Display ASCII Lobster and completion message
       ansible.builtin.debug:
         msg:
-          - ""
-          - "============================================"
-          - "✅ Clawdbot installation completed!"
-          - "============================================"
+          - "[0;36m"
+          - "   +====================================================+"
+          - "   |                                                    |"
+          - "   |         [0;33mWelcome to Clawdbot! [0;31m🦞[0;36m                    |"
+          - "   |                                                    |"
+          - "   |[0;31m                   ,.---._                         [0;36m|"
+          - "   |[0;31m               ,,,,     /       `,                 [0;36m|"
+          - "   |[0;31m                \\\\\\\\\\\\   /    '\\_  ;                [0;36m|"
+          - "   |[0;31m                 |||| /\\/``-.__\\;'                 [0;36m|"
+          - "   |[0;31m                 ::::/\\/_                          [0;36m|"
+          - "   |[0;31m {{`-.__.-'(`(^^(^^^(^ 9 `.========='              [0;36m|"
+          - "   |[0;31m{{{{{{ { ( ( (  (   (-----:=                      [0;36m|"
+          - "   |[0;31m {{.-'~~'-.(,(,,(,,,(__6_.'=========.              [0;36m|"
+          - "   |[0;31m                 ::::\\/\\                           [0;36m|"
+          - "   |[0;31m                 |||| \\/\\  ,-'/,                   [0;36m|"
+          - "   |[0;31m                ////   \\ `` _/ ;                   [0;36m|"
+          - "   |[0;31m               ''''     \\  `  .'                   [0;36m|"
+          - "   |[0;31m                         `---'                     [0;36m|"
+          - "   |                                                    |"
+          - "   |           [0;32m✅  Installation Successful![0;36m             |"
+          - "   |                                                    |"
+          - "   +====================================================+[0m"
           - ""
           - "🔒 Security Status:"
           - "  - UFW Firewall: ENABLED"
@@ -63,5 +73,54 @@
           - ""
           - "📚 Documentation: https://docs.clawd.bot"
           - ""
-          - "🚀 run-playbook.sh will now switch to clawdbot user..."
-          - ""
+
+    - name: Create one-time welcome message for clawdbot user
+      ansible.builtin.copy:
+        dest: /home/clawdbot/.clawdbot-welcome
+        owner: clawdbot
+        group: clawdbot
+        mode: '0644'
+        content: |
+          echo ""
+          echo "============================================"
+          echo "📋 Clawdbot Setup - Next Steps"
+          echo "============================================"
+          echo ""
+          echo "You are now: $(whoami)@$(hostname)"
+          echo "Home: $HOME"
+          echo ""
+          echo "🔧 Setup Commands:"
+          echo ""
+          echo "1. Configure Clawdbot:"
+          echo "   nano ~/.clawdbot/config.yml"
+          echo ""
+          echo "2. Login to provider (WhatsApp/Telegram/Signal):"
+          echo "   clawdbot login"
+          echo ""
+          echo "3. Test gateway:"
+          echo "   clawdbot gateway"
+          echo ""
+          echo "4. Exit and manage as service:"
+          echo "   exit"
+          echo "   sudo systemctl status clawdbot"
+          echo "   sudo journalctl -u clawdbot -f"
+          echo ""
+          echo "5. Connect Tailscale (as root):"
+          echo "   exit"
+          echo "   sudo tailscale up"
+          echo ""
+          echo "============================================"
+          echo ""
+          echo "Type 'exit' to return to previous user"
+          echo ""
+          rm -f ~/.clawdbot-welcome
+
+    - name: Add welcome message to .bashrc
+      ansible.builtin.lineinfile:
+        path: /home/clawdbot/.bashrc
+        line: '[ -f ~/.clawdbot-welcome ] && source ~/.clawdbot-welcome'
+        state: present
+
+    - name: Signal playbook completion
+      ansible.builtin.set_fact:
+        clawdbot_setup_ready: true
