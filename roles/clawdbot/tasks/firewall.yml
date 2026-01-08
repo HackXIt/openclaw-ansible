@@ -3,12 +3,7 @@
   apt:
     name: ufw
     state: present
-    update_cache: yes
-
-- name: Reset UFW to default state
-  community.general.ufw:
-    state: reset
-  ignore_errors: yes
+    update_cache: true
 
 - name: Set UFW default policies
   community.general.ufw:
@@ -59,7 +54,7 @@
       
       # Return to continue processing
       COMMIT
-    create: no
+    create: false
 
 - name: Configure Docker daemon to work with UFW
   template:

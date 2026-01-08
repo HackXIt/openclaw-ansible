@@ -1,6 +1,7 @@
 # Clawdbot Ansible Installer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lint](https://github.com/pasogott/clawdbot-ansible/actions/workflows/lint.yml/badge.svg)](https://github.com/pasogott/clawdbot-ansible/actions/workflows/lint.yml)
 [![Ansible](https://img.shields.io/badge/Ansible-2.14+-blue.svg)](https://www.ansible.com/)
 [![Debian/Ubuntu](https://img.shields.io/badge/OS-Debian%2FUbuntu-orange.svg)](https://www.debian.org/)
 
@@ -71,6 +72,14 @@ Verify: `nmap -p- YOUR_SERVER_IP` should show only port 22 open.
 ## Manual Installation
 
 ```bash
+# As root
+apt update && apt install -y ansible git
+git clone https://github.com/pasogott/clawdbot-ansible.git
+cd clawdbot-ansible
+ansible-galaxy collection install -r requirements.yml
+ansible-playbook playbook.yml
+
+# Or with sudo (non-root user)
 sudo apt update && sudo apt install -y ansible git
 git clone https://github.com/pasogott/clawdbot-ansible.git
 cd clawdbot-ansible

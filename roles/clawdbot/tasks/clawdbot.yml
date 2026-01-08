@@ -57,9 +57,9 @@
 
 - name: Reload systemd daemon
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Enable Clawdbot service
   systemd:
     name: clawdbot
-    enabled: yes
+    enabled: true

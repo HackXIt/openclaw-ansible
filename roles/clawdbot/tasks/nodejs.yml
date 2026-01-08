@@ -28,7 +28,7 @@
 
 - name: Update apt cache after adding NodeSource repo
   apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Install Node.js
   apt:

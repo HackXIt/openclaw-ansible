@@ -2,18 +2,29 @@
 - name: Install Clawdbot with Docker and UFW firewall
   hosts: localhost
   connection: local
-  become: yes
+  become: true
+  become_method: sudo
   
   vars:
     ansible_python_interpreter: /usr/bin/python3
   
   pre_tasks:
+    - name: Check if running as root
+      command: id -u
+      register: user_id
+      changed_when: false
+      become: false
+    
+    - name: Set fact for root user
+      set_fact:
+        is_root: "{{ user_id.stdout == '0' }}"
+    
     - name: Install Ansible collections
       command: ansible-galaxy collection install -r requirements.yml
       args:
         chdir: "{{ playbook_dir }}"
       delegate_to: localhost
-      become: no
+      become: false
       run_once: true
       changed_when: false
   

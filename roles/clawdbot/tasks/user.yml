@@ -3,9 +3,9 @@
   user:
     name: clawdbot
     comment: "Clawdbot Service User"
-    system: yes
+    system: true
     shell: /bin/bash
-    create_home: yes
+    create_home: true
     home: /home/clawdbot
     state: present
 
