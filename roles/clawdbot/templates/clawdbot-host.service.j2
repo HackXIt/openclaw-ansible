@@ -8,9 +8,9 @@ Type=simple
 User={{ clawdbot_user }}
 Group={{ clawdbot_user }}
 WorkingDirectory={{ clawdbot_home }}
-Environment="PATH={{ clawdbot_home }}/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+Environment="PATH={{ clawdbot_home }}/.local/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="PNPM_HOME={{ clawdbot_home }}/.local/share/pnpm"
-ExecStart={{ clawdbot_home }}/.local/share/pnpm/clawdbot gateway
+ExecStart={{ clawdbot_home }}/.local/bin/clawdbot gateway
 Restart=always
 RestartSec=10
 
