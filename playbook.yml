@@ -108,11 +108,11 @@
       ansible.builtin.command: /tmp/show-lobster.sh
       changed_when: false
 
-    - name: Create one-time welcome message for clawdbot user
+    - name: Create one-time welcome message for openclaw user
       ansible.builtin.copy:
-        dest: /home/clawdbot/.clawdbot-welcome
-        owner: clawdbot
-        group: clawdbot
+        dest: /home/openclaw/.openclaw-welcome
+        owner: openclaw
+        group: openclaw
         mode: '0644'
         content: |
           echo ""
@@ -184,12 +184,12 @@
           echo ""
           echo "Type 'exit' to return to your previous user"
           echo ""
-          rm -f ~/.clawdbot-welcome
+          rm -f ~/.openclaw-welcome
 
     - name: Add welcome message to .bashrc
       ansible.builtin.lineinfile:
-        path: /home/clawdbot/.bashrc
-        line: '[ -f ~/.clawdbot-welcome ] && source ~/.clawdbot-welcome'
+        path: /home/openclaw/.bashrc
+        line: '[ -f ~/.openclaw-welcome ] && source ~/.openclaw-welcome'
         state: present
         insertafter: EOF
 
