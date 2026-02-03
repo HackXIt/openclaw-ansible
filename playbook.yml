@@ -95,12 +95,12 @@
       when: homebrew_install is defined and homebrew_install.changed
 
   roles:
-    - clawdbot
+    - openclaw
 
   post_tasks:
     - name: Copy ASCII art script
       ansible.builtin.copy:
-        src: roles/clawdbot/files/show-lobster.sh
+        src: roles/openclaw/files/show-lobster.sh
         dest: /tmp/show-lobster.sh
         mode: '0755'
 
